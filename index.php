@@ -1,7 +1,6 @@
 <?php
-define('DEFAULT_CONTROLLER','index');
-define('DEFAULT_METHOD','execute');
 require_once 'config/settings.php';
+require_once 'config/routing.php';
 if(Settings::DEBUG) {
     ini_set('display_errors', 'On');
     error_reporting(E_ALL);
@@ -18,18 +17,10 @@ else if( isset($_SERVER['REDIRECT_URL']) )
 else {
     $path = "";
 }
-$controllerName = DEFAULT_CONTROLLER;  // default controller
-$method         = DEFAULT_METHOD;// default method
 $pathInfo = explode('/', trim($path,'/') );
-if(count($pathInfo) > 0) {
-    $controllerName = $pathInfo[0];
-}
-if(count($pathInfo) > 1) {
-    $method = $pathInfo[1];
-}
-if ( ! file_exists( 'controllers/' . $controllerName . '.php') ) {
-    $controllerName = DEFAULT_CONTROLLER;
-}
+$routing = new Routing($pathInfo);
+$controllerName = $routing->controllerName;
+$method         = $routing->methodName;
 require 'controllers/' . $controllerName . '.php';
 $pathValues = explode('/', $controllerName );
 $className = end($pathValues);
@@ -38,5 +29,6 @@ $controller = new $class();
 if ( is_object($controller) == false ) {
     exit;
 }
+$controller->setRouting($routing);
 $controller->handleRequest($method);
 ?>

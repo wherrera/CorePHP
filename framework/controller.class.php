@@ -3,6 +3,13 @@
  * @author wherrera
  */
 class Controller {   
+    private $_routing;
+    public function setRouting (Routing $routing) {
+        $this->_routing = $routing;
+    }
+    public function getRouting () {
+        return $this->_routing;
+    }
     /**
      * @return Database
      */

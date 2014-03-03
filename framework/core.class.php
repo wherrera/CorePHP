@@ -7,6 +7,8 @@ require_once 'controller.class.php';
 require_once 'paginator.class.php';
 require_once 'validation.class.php';
 require_once 'dateutility.class.php';
+require_once 'http.class.php';
+require_once 'mimetypes.class.php';
 
 //date_default_timezone_set('America/Los_Angeles');        
 date_default_timezone_set('UTC');
