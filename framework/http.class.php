@@ -9,6 +9,7 @@ class Http {
     private $_user;
     private $_pass;
     private $_content_type;
+    private $_returnHttpHeader = 0; // 1 = return http header
     
     public function Http ( $url = null ) {
         $this->_url = $url;
@@ -32,7 +33,7 @@ class Http {
         if( $this->_content_type != null ) {
             curl_setopt($p, CURLOPT_HTTPHEADER, array('Content-Type: ' . $this->_content_type));
         }
-        curl_setopt($p, CURLOPT_HEADER, 1);        
+        curl_setopt($p, CURLOPT_HEADER, $this->_returnHttpHeader);
         if($this->_user != null && $this->_pass != null) {
             curl_setopt($p, CURLOPT_USERPWD, $this->_user . ":" . $this->_pass);
         }        
