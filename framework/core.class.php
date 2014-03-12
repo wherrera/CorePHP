@@ -10,8 +10,7 @@ require_once 'dateutility.class.php';
 require_once 'http.class.php';
 require_once 'mimetypes.class.php';
 
-//date_default_timezone_set('America/Los_Angeles');        
-date_default_timezone_set('UTC');
+date_default_timezone_set(Settings::DEFAULT_TIMEZONE);
 
 define('LINK_ROOT','/index.php/');
 define('ER_DUP_ENTRY',1062);

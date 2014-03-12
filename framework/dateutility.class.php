@@ -49,5 +49,25 @@ class DateUtility {
             return 'about ' . round($tm / 86400) . ' days';
         }
     }
+    public static function getPrevTimeString($timestamp) {
+        
+        $tm = (time() - $timestamp);
+        
+        if( $tm < 60 ) {
+            return 'less than a minute ago';
+        } 
+        else if( $tm >= 60 && $tm < 120 ) {
+            return 'about a minute ago';
+        } 
+        else if( $tm <= 3600 ) {
+            return ' ' . round($tm / 60) . ' minutes ago';
+        }
+        else if( $tm <= 86400 ) {
+            return ' ' . round($tm / 3600) . ' hours ago';
+        }
+        else {
+            return ' ' . round($tm / 86400) . ' days ago';
+        }
+    }
 }
 ?>

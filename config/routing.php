@@ -11,8 +11,10 @@ class Routing {
     public $controllerName      = DEFAULT_CONTROLLER;
     public $methodName          = DEFAULT_METHOD;
     public $returnContentType   = DEFAULT_CONTENT_TYPE;
+    public $pathInfo            = array();
     
     public function Routing (array $pathInfo) {
+        $this->pathInfo = $pathInfo;
         if(count($pathInfo) > 0) {
             $this->controllerName = $pathInfo[0];
         }
@@ -20,9 +22,9 @@ class Routing {
             $this->controllerName = DEFAULT_CONTROLLER;
         }
         if(count($pathInfo) > 2)
-        {
-            $this->returnContentType = $pathInfo[1];
-            $this->methodName = $pathInfo[2];   
+        {            
+            $this->methodName = $pathInfo[1];   
+            $this->returnContentType = $pathInfo[2];
         }
         else if(count($pathInfo) > 1) 
         {

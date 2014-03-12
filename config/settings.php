@@ -8,6 +8,7 @@ class Settings {
                 "dbname"=>""
              )
     );    
-    const DEBUG = true;
+    const DEFAULT_TIMEZONE = 'America/Los_Angeles';
+    const DEBUG = true;    
 }
 ?>

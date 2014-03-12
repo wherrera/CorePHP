@@ -30,6 +30,9 @@ class Http {
     
     public function get () {
         $p = curl_init($this->_url);
+        if($p == false) {
+            return false;
+        }
         if( $this->_content_type != null ) {
             curl_setopt($p, CURLOPT_HTTPHEADER, array('Content-Type: ' . $this->_content_type));
         }

@@ -4,12 +4,18 @@
  */
 class Controller {   
     private $_routing;
+    
     public function setRouting (Routing $routing) {
         $this->_routing = $routing;
     }
+    
+    /**
+     * @return Routing
+     */
     public function getRouting () {
         return $this->_routing;
     }
+    
     /**
      * @return Database
      */
