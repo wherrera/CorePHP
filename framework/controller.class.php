@@ -17,6 +17,14 @@ class Controller {
     }
     
     /**
+     * @return Authentication
+     * override in sub-class to require authentication
+     */
+    public function Authentication () {
+        return null;
+    }
+    
+    /**
      * @return Database
      */
     public function getDatabase($name = NULL) {
@@ -45,10 +53,18 @@ class Controller {
         if(isset($_REQUEST[$name]) == false){
             return null;
         }
-        return Core::getDatabase()->real_escape_string($_REQUEST[$name]);
+        return $this->getDatabase()->real_escape_string($_REQUEST[$name]);
     }
     public function handleRequest ($methodName) 
     {
+        $auth = $this->Authentication();
+        
+        if( $auth != null ) {
+            if( $auth->Authenticate() == false) {
+               return;
+            }
+        }
+        
         $reflect = new ReflectionClass($this);
 
         $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);

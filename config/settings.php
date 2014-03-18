@@ -2,12 +2,18 @@
 class Settings {
     public static $DB_CONNECTIONS = array(
         "mysql" => 
-        array(  "username"=>"",
-                "password"=>"",
+        array(  "username"=>"root",
+                "password"=>"root",
                 "hostname"=>"localhost",
-                "dbname"=>""
+                "dbname"=>"corephp"
              )
-    );    
+    );
+    public static $USERS = array (
+        'table' => 'users',
+        'username.column' => 'username',
+        'password.column' => 'password',
+        'hash.algorithm' => 'MD5'
+    );
     const DEFAULT_TIMEZONE = 'America/Los_Angeles';
     const DEBUG = true;    
 }

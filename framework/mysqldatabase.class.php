@@ -4,7 +4,7 @@
  */
 class MySQLDatabase implements Database
 {
-    private $mysqli;
+    private $mysqli = null;
     private $stmt = false;
     private $hostname;
     private $username;
@@ -23,6 +23,10 @@ class MySQLDatabase implements Database
      */
     private function getMysqli() {
         return $this->mysqli;
+    }
+    
+    public function connected () {
+        return $this->mysqli != null;
     }
     
     public function connect () {
@@ -150,9 +154,11 @@ class MySQLDatabase implements Database
         $query .= $keys;        
         $res    = $this->prepare($query);
         if( $res == false ) {
+            Logger::Warning('update prepare failed for table ' . $table);
             return false;
         }       
         if( call_user_func_array(array($res, "bind_param"), $bind_args) == false ) {
+            Logger::Warning('call to bind_param failed for update table ' . $table);
             return false;
         }
         $execute_result = $res->execute();            
@@ -190,6 +196,7 @@ class MySQLDatabase implements Database
         $query .= ")";       
         $res    = $this->mysqli->prepare($query);  
         if($res == false) {
+            Logger::Warning('insert prepare failed for table ' . $table);
             return false;
         }
         $ref    = new ReflectionClass('mysqli_stmt');

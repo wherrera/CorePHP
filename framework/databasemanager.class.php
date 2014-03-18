@@ -35,13 +35,17 @@ class DatabaseManager {
      * @return Database
      */
     public function getDatabase ($name = NULL) {
+        $db = null;
         if($name == NULL && count($this->databases) > 0) {
-            return current($this->databases);
+            $db = current($this->databases);
         }
-        if( isset($this->databases[$name])) {
-            return $this->databases[$name];
+        else if( isset($this->databases[$name])) {
+            $db = $this->databases[$name];
         }
-        return null;
+        if($db != null && $db->connected() == false) {
+            $db->connect();
+        }
+        return $db;
     }
 }
 ?>
