@@ -22,6 +22,14 @@ class Session
         }
     }
     
+    public static function GetJsonObject($name) {
+        $json = self::Get($name);
+        if($json == false) {
+            return false;
+        }
+        return json_decode($json);
+    }
+    
     public static function Get($name)
     {
         Session::Start();
