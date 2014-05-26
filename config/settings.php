@@ -10,6 +10,7 @@ class Settings {
     );
     public static $USERS = array (
         'table' => 'users',
+        'id.column' => 'id',
         'username.column' => 'username',
         'password.column' => 'password',
         'hash.algorithm' => 'MD5'

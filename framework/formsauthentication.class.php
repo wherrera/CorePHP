@@ -19,9 +19,9 @@ class FormsAuthentication extends Authentication {
         $this->_datasource  = $_REQUEST;
         $this->_controller  = $controller;
         
-        $user = Session::Get('user');
+        $user = Session::GetJsonObject('user');
         if($user != false) {
-            $this->_username = $user;
+            $this->_username = $user->username;
             $this->_authenticated = true;
         }
     }
@@ -57,8 +57,8 @@ class FormsAuthentication extends Authentication {
         if( !$username && !$password ) {
             $this->_controller->loadview($this->_loginView);
             return false;
-        }        
-        
+        } 
+                
         $result = $this->_database->query(  'select * from ' . Settings::$USERS['table'] . 
                                             ' where ' . Settings::$USERS['username.column'] . '="' . $username . '"' .
                                             ' and ' . Settings::$USERS['password.column'] . '="' . $password . '"');
@@ -71,9 +71,9 @@ class FormsAuthentication extends Authentication {
             $this->_controller->loadview($this->_loginView, array('error' => 'invalid username/password'));
             return false;
         }
-        $this->_username = $user['username'];
+        $this->_username = $user[Settings::$USERS['username.column']];
         $this->_authenticated = true;
-        Session::Set('user', $user['username']);
+        Session::Set('user', json_encode($user) );
         return true;
     }
 
