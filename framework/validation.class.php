@@ -4,7 +4,6 @@
  */
 class Validation {
     public static function validEmail ($email) {       
-        return strlen($email) >= 5;
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 }
-?>

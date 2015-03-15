@@ -48,4 +48,3 @@ class DatabaseManager {
         return $db;
     }
 }
-?>

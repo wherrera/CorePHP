@@ -5,11 +5,11 @@
 class MySQLDatabase implements Database
 {
     private $mysqli = null;
-    private $stmt = false;
     private $hostname;
     private $username;
     private $password;
     private $dbname;
+    private $connected = FALSE;
     
     public function MySQLDatabase ($hostname,$username,$password,$dbname) {
         $this->hostname = $hostname;
@@ -26,15 +26,20 @@ class MySQLDatabase implements Database
     }
     
     public function connected () {
-        return $this->mysqli != null;
+        if($this->mysqli == null) {
+            return FALSE;
+        }
+        return $this->connected;
     }
     
     public function connect () {
         $this->mysqli = new mysqli($this->hostname, $this->username, $this->password, $this->dbname);
         if (mysqli_connect_error()) {
-            return false;
+            $this->connected = FALSE;
+            return FALSE;
         }
-        return true;
+        $this->connected = TRUE;
+        return TRUE;
     }
     
     public function insertedId() {        
@@ -42,13 +47,16 @@ class MySQLDatabase implements Database
     }
         
     public function query ($query) {
+        if(!$this->connected) {
+            return FALSE;
+        }
         return $this->mysqli->query($query);
     }
     
     public function queryAsAssocArray ($query) {
         $result = $this->query($query);
-        if($result == null) {
-            return null;
+        if($result == FALSE) {
+            return FALSE;
         }
         $rows = array();
         while($row = $this->fetchAssoc($result)) {
@@ -116,6 +124,10 @@ class MySQLDatabase implements Database
         return $this->query($query);
     }
     
+    /**
+     * Executes a update Query
+     * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
+     */    
     public function update ( $table, array $values , array $where) 
     {        
         $query = "update $table set ";
@@ -153,18 +165,22 @@ class MySQLDatabase implements Database
         $bind_args = array_merge( array($types), $refArr);        
         $query .= $keys;        
         $res    = $this->prepare($query);
-        if( $res == false ) {
+        if( $res == FALSE ) {
             Logger::Warning('update prepare failed for table ' . $table);
-            return false;
+            return FALSE;
         }       
         if( call_user_func_array(array($res, "bind_param"), $bind_args) == false ) {
             Logger::Warning('call to bind_param failed for update table ' . $table);
-            return false;
+            return FALSE;
         }
         $execute_result = $res->execute();            
         return $execute_result && ($res->affected_rows > 0);
     }
     
+    /**
+     * Executes a insert Query
+     * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
+     */
     public function insert ( $table, array $values ) 
     {        
         $query = "insert into $table ";
@@ -195,9 +211,9 @@ class MySQLDatabase implements Database
         }        
         $query .= ")";       
         $res    = $this->mysqli->prepare($query);  
-        if($res == false) {
+        if($res == FALSE) {
             Logger::Warning('insert prepare failed for table ' . $table);
-            return false;
+            return FALSE;
         }
         $ref    = new ReflectionClass('mysqli_stmt');
         $method = $ref->getMethod("bind_param");
@@ -223,4 +239,3 @@ class MySQLDatabase implements Database
         return $this->getMysqli()->errno;
     }
 }
-?>

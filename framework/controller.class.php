@@ -30,6 +30,7 @@ class Controller {
     public function getDatabase($name = NULL) {
         return DatabaseManager::getInstance()->getDatabase($name);
     }
+    
     public function loadview($name,$args = array()) {
       $path = 'views/' . $name . '.php';
       if(file_exists($path) == false) {
@@ -40,21 +41,29 @@ class Controller {
       }
       require_once $path;
     }
+    
     public function error ($errorCode, $errorMessage) {
       return;
     }
+    
     public function requireArg ( $name ) {
         if ( isset ($_REQUEST[$name]) == false ) {
             $this->error(-1, 'missing argument ' . $name);
         }
         return $this->getArg($name);
     }
+    
     public function getArg($name) {
         if(isset($_REQUEST[$name]) == false){
             return null;
         }
         return $this->getDatabase()->real_escape_string($_REQUEST[$name]);
     }
+    
+    public function exception (Exception $ex) {
+        http_response_code($ex->getCode());
+    }
+    
     public function handleRequest ($methodName) 
     {
         $auth = $this->Authentication();
@@ -69,20 +78,23 @@ class Controller {
 
         $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        foreach ($methods as $method) 
-        {
-            if ( strcmp($method->name,$methodName) == 0 ) 
+        try{
+            foreach ($methods as $method) 
             {
-                $parameters = $method->getParameters();    
-                $params = array();
-                foreach ($parameters as $param) {        
-                    $params[] = $this->getArg($param->name);                    
+                if ( strcmp($method->name,$methodName) == 0 ) 
+                {
+                    $parameters = $method->getParameters();    
+                    $params = array();
+                    foreach ($parameters as $param) {        
+                        $params[] = $this->getArg($param->name);                    
+                    }
+                    $method->invokeArgs($this,$params);                
+                    return;                
                 }
-                $method->invokeArgs($this,$params);                
-                return;                
             }
+            $this->execute();
+        } catch (Exception $exception) {
+            $this->exception($exception);
         }
-        $this->execute();
     }
 }
-?>

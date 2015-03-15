@@ -1,9 +1,6 @@
 <?php
-
 /**
- * Description of logger
- *
- * @author williamherrera
+ * @author wherrera
  */
 class Logger {
     

@@ -5,6 +5,7 @@
  */
 interface Database {
     public function connect ();
+    public function connected();
     public function insertedId ();
     public function query ($query);
     public function queryAsAssocArray ($query);

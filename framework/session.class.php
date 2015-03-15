@@ -42,4 +42,3 @@ class Session
         $_SESSION[$name] = $value;
     }
 }
-?>
