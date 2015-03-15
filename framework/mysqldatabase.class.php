@@ -2,7 +2,7 @@
 /**
  * @author wherrera
  */
-class MySQLDatabase implements Database
+class MySQLDatabase
 {
     private $mysqli = null;
     private $hostname;
@@ -34,7 +34,7 @@ class MySQLDatabase implements Database
     
     public function connect () {
         $this->mysqli = new mysqli($this->hostname, $this->username, $this->password, $this->dbname);
-        if (mysqli_connect_error()) {
+        if ($this->mysqli->connect_errno) {
             $this->connected = FALSE;
             return FALSE;
         }
@@ -70,11 +70,11 @@ class MySQLDatabase implements Database
         return intval( $row[0] );
     }
     
-    public function fetchAssoc ($result) {
+    public function fetchAssoc (mysqli_result $result) {
         return $result->fetch_assoc();
     }
     
-    public function fetchRow ($result) {
+    public function fetchRow (mysqli_result $result) {
         return $result->fetch_row();
     }
         
@@ -93,9 +93,9 @@ class MySQLDatabase implements Database
     public function rollback() {
         return $this->query('ROLLBACK;');
     }
-    
+
     /**
-     * @return mysqli_stmt
+     * @return mysqli_stmt <b>mysqli_prepare</b> returns a statement object or <b>FALSE</b> if an error occurred.
      */
     public function prepare($query) {
         return $this->mysqli->prepare($query);

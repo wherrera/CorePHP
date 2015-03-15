@@ -1,6 +1,5 @@
 <?php
 require_once 'logger.class.php';
-require_once 'database.class.php';
 require_once 'mysqldatabase.class.php';
 require_once 'databasemanager.class.php';
 require_once 'session.class.php';

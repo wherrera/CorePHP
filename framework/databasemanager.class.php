@@ -32,7 +32,7 @@ class DatabaseManager {
     }
     
     /**
-     * @return Database
+     * @return MySQLDatabase
      */
     public function getDatabase ($name = NULL) {
         $db = null;

@@ -15,3 +15,10 @@ class ServiceUnavailableException extends Exception {
         $this->message = 'Service Unavailable';
     }
 }
+
+class InternalServerErrorException extends Exception {
+    public function InternalServerErrorException () {
+        $this->code = 500;
+        $this->message = 'Internal Server Error';
+    }
+}
