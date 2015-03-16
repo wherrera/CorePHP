@@ -12,6 +12,7 @@ require_once 'dateutility.class.php';
 require_once 'http.class.php';
 require_once 'mimetypes.class.php';
 require_once 'exceptions.class.php';
+require_once 'cache.class.php';
 
 /*
  * set default time zone from settings.php

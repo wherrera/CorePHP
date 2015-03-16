@@ -11,7 +11,7 @@ class FormsAuthentication extends Authentication {
     private $_datasource;
     private $_controller;
     
-    public function FormsAuthentication ( Database $database,
+    public function FormsAuthentication ( MySQLDatabase $database,
                                           Controller $controller,
                                           $login_view = false ) {
         $this->_database    = $database;
