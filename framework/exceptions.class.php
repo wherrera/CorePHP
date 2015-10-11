@@ -9,6 +9,13 @@ class BadRequestException extends Exception {
     }
 }
 
+class InvalidControllerException extends Exception {
+    public function InvalidControllerException ( $name ) {
+        $this->code = 400;
+        $this->message = 'Invalid Controller ' . $name;
+    }
+}
+
 class ServiceUnavailableException extends Exception {
     public function ServiceUnavailableException () {
         $this->code = 503;

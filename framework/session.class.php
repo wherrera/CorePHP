@@ -30,10 +30,10 @@ class Session
         return json_decode($json);
     }
     
-    public static function Get($name)
+    public static function Get($name,$default = false)
     {
         Session::Start();
-        return isset( $_SESSION[$name] ) ? $_SESSION[$name] : false;
+        return isset( $_SESSION[$name] ) ? $_SESSION[$name] : $default;
     }
     
     public static function Set($name, $value)

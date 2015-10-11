@@ -1,19 +1,13 @@
 <?php
-require_once 'config/settings.php';
-require_once 'config/routing.php';
-require_once 'framework/core.class.php';
-$path = Settings::pathInfo();
-$pathInfo = explode('/', trim($path,'/') );
-$routing = new Routing($pathInfo);
-$controllerName = $routing->controllerName;
-$method         = $routing->methodName;
-require 'controllers/' . $controllerName . '.php';
-$pathValues = explode('/', $controllerName );
-$className = end($pathValues);
-$class = ucfirst($className);
-$controller = new $class();
-if ( is_object($controller) == false ) {
-    exit;
+
+if(file_exists('config/settings.php')) {
+    require_once 'config/settings.php';
+} else if(file_exists('config/prod.settings.php')) {
+    require_once 'config/prod.settings.php';
+} else if(file_exists('config/stage.settings.php')) {
+    require_once 'config/stage.settings.php';
+} else {
+    require_once 'config/default.settings.php';
 }
-$controller->setRouting($routing);
-$controller->handleRequest($method);
+
+require_once 'framework/core.class.php';

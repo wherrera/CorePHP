@@ -28,7 +28,7 @@ class Controller {
      * @return Database
      */
     public function getDatabase($name = NULL) {
-        return DatabaseManager::getInstance()->getDatabase($name);
+        return DatabaseManager::getDatabase($name);
     }
     
     public function loadview($name,$args = array()) {
@@ -53,11 +53,11 @@ class Controller {
         return $this->getArg($name);
     }
     
-    public function getArg($name) {
+    public function getArg($name, $default = false) {
         if(isset($_REQUEST[$name]) == false){
-            return null;
+            return $default;
         }
-        return $this->getDatabase()->real_escape_string($_REQUEST[$name]);
+        return $_REQUEST[$name];
     }
     
     public function exception (Exception $ex) {
@@ -98,3 +98,10 @@ class Controller {
         }
     }
 }
+
+spl_autoload_register(function ($class) {
+    $path = 'controllers/' . strtolower($class) . '.controller.php';
+    if(file_exists($path)) {
+        include($path);
+    }
+});

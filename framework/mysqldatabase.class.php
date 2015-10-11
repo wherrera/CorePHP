@@ -65,7 +65,7 @@ class MySQLDatabase
         return $rows;
     }
     
-    public function count ($table,$where) {
+    public function count ($table,$where = '') {
         $row = $this->fetchRow($this->query("select count(*) from " . $table . ' ' . $where));
         return intval( $row[0] );
     }

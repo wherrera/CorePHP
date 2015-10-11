@@ -1,0 +1,6 @@
+{
+    "controllers": {
+            "index" : "controllers/index.php",
+            "logout": "controllers/logout.php"
+    }
+}

@@ -13,6 +13,9 @@ require_once 'http.class.php';
 require_once 'mimetypes.class.php';
 require_once 'exceptions.class.php';
 require_once 'cache.class.php';
+require_once 'loader.class.php';
+require_once 'routing.class.php';
+require_once 'model.class.php';
 
 /*
  * set default time zone from settings.php
@@ -21,3 +24,8 @@ date_default_timezone_set(Settings::DEFAULT_TIMEZONE);
 
 define('LINK_ROOT','/index.php/');
 define('ER_DUP_ENTRY',1062);
+
+/*
+ * Execute request
+ */
+handle_request();

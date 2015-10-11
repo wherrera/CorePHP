@@ -14,12 +14,9 @@ class Routing {
     public $pathInfo            = array();
     
     public function Routing (array $pathInfo) {
-        $this->pathInfo = $pathInfo;
+        $this->pathInfo = $pathInfo;        
         if(count($pathInfo) > 0) {
             $this->controllerName = $pathInfo[0];
-        }
-        if ( ! file_exists( 'controllers/' . $this->controllerName . '.php') ) {
-            $this->controllerName = DEFAULT_CONTROLLER;
         }
         if(count($pathInfo) > 2)
         {            

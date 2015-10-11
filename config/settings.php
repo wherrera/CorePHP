@@ -16,19 +16,7 @@ class Settings {
         'hash.algorithm' => 'MD5'
     );
     const DEFAULT_TIMEZONE = 'America/Los_Angeles';
-    const DEBUG = false;
-    public static function pathInfo () {
-        $path = "";
-        if( isset($_SERVER['PATH_INFO']) ) 
-        {
-            $path = filter_input(INPUT_SERVER, 'PATH_INFO');
-        }
-        else if( isset($_SERVER['REDIRECT_URL']) ) 
-        {
-            $path = filter_input(INPUT_SERVER,'REDIRECT_URL');
-        }
-        return $path;
-    }
+    const DEBUG = true;
 }
 
 if(Settings::DEBUG) {
